@@ -1,0 +1,12 @@
+Basic RAG Architecture Overview
+
+Basic RAG (Naive RAG) is the foundational pattern for Retrieval-Augmented Generation.
+It connects a document ingestion pipeline to a vector store, converts the user's question into an embedding vector, retrieves the top-K most relevant chunks, and provides those chunks to an LLM as context for generating the final answer.
+
+The pipeline operates in two main phases:
+1. Ingestion Phase: Raw Documents -> Document Loader -> Chunk Splitter -> Embedding Model -> Vector Database.
+2. Retrieval & Generation Phase: User Question -> Query Embedding -> Similarity Search -> Top-K Relevant Chunks -> Context Augmentation -> LLM Generator -> Final Answer.
+
+Document loading extracts text and metadata from files such as PDF, TXT, Markdown, and HTML.
+Chunking splits large documents into smaller pieces (for example 500 tokens with 50 tokens overlap) so they can be embedded and searched accurately.
+Similarity metrics commonly used include Cosine Similarity, Dot Product, and Euclidean Distance.
