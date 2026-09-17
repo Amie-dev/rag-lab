@@ -3,13 +3,13 @@
 To complete our production-grade Basic RAG system, we build an interactive Command-Line Interface (CLI) and an automated Jest integration test suite.
 
 In this chapter, we cover:
-1. [src/cli.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/cli.ts) — Interactive CLI application built with Commander.
-2. [tests/pipeline.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/pipeline.test.ts) — End-to-end RAG engine integration test suite.
+1. [src/cli.ts](../code/src/cli.ts) — Interactive CLI application built with Commander.
+2. [tests/pipeline.test.ts](../code/tests/pipeline.test.ts) — End-to-end RAG engine integration test suite.
 3. **Execution Commands**: Build, run, and test instructions.
 
 ---
 
-## 1. Command-Line Interface ([src/cli.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/cli.ts))
+## 1. Command-Line Interface ([src/cli.ts](../code/src/cli.ts))
 
 The CLI application exposes two primary subcommands:
 - `basic-rag ingest --path <file_or_directory>`: Ingests documents into the vector database.
@@ -143,7 +143,7 @@ program.parse(process.argv);
 
 ---
 
-## 2. Integration Test Suite ([tests/pipeline.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/pipeline.test.ts))
+## 2. Integration Test Suite ([tests/pipeline.test.ts](../code/tests/pipeline.test.ts))
 
 End-to-end integration test validating ingestion, vector indexing, retrieval, and answer generation using mock models.
 

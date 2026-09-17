@@ -3,10 +3,10 @@
 In a production-grade RAG engine, strongly-typed domain contracts, centralized configuration management, and clean project build definitions establish the core foundation.
 
 In this chapter, we cover:
-1. **Environment & Project Configuration**: [package.json](file:///home/aminul/development/rag-lab/01-basic-rag/code/package.json), [tsconfig.json](file:///home/aminul/development/rag-lab/01-basic-rag/code/tsconfig.json), [jest.config.js](file:///home/aminul/development/rag-lab/01-basic-rag/code/jest.config.js), [.env.example](file:///home/aminul/development/rag-lab/01-basic-rag/code/.env.example).
-2. **Core Domain Schemas**: [src/schemas.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/schemas.ts) — Data models for documents, chunks, vectors, retrieval scores, and RAG responses.
-3. **System Configuration**: [src/config.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/config.ts) — Centralized hyperparameter configuration and environment variable loading.
-4. **Public Module Exports Barrel**: [src/index.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/index.ts) — Clean library exports.
+1. **Environment & Project Configuration**: [package.json](../code/package.json), [tsconfig.json](../code/tsconfig.json), [jest.config.js](../code/jest.config.js), [.env.example](../code/.env.example).
+2. **Core Domain Schemas**: [src/schemas.ts](../code/src/schemas.ts) — Data models for documents, chunks, vectors, retrieval scores, and RAG responses.
+3. **System Configuration**: [src/config.ts](../code/src/config.ts) — Centralized hyperparameter configuration and environment variable loading.
+4. **Public Module Exports Barrel**: [src/index.ts](../code/src/index.ts) — Clean library exports.
 
 ---
 
@@ -14,7 +14,7 @@ In this chapter, we cover:
 
 Before writing application logic, we establish our TypeScript build configuration, dependency manifest, Jest test runner settings, and environment variable defaults.
 
-### 1.1 Dependency Manifest ([package.json](file:///home/aminul/development/rag-lab/01-basic-rag/code/package.json))
+### 1.1 Dependency Manifest ([package.json](../code/package.json))
 
 ```json
 {
@@ -63,7 +63,7 @@ Before writing application logic, we establish our TypeScript build configuratio
 
 ---
 
-### 1.2 Compiler Options ([tsconfig.json](file:///home/aminul/development/rag-lab/01-basic-rag/code/tsconfig.json))
+### 1.2 Compiler Options ([tsconfig.json](../code/tsconfig.json))
 
 ```json
 {
@@ -95,7 +95,7 @@ Before writing application logic, we establish our TypeScript build configuratio
 
 ---
 
-### 1.3 Test Suite Configuration ([jest.config.js](file:///home/aminul/development/rag-lab/01-basic-rag/code/jest.config.js))
+### 1.3 Test Suite Configuration ([jest.config.js](../code/jest.config.js))
 
 ```javascript
 /** @type {import('ts-jest').JestConfigWithTsJest} */
@@ -117,7 +117,7 @@ module.exports = {
 
 ---
 
-### 1.4 Environment Variable Template ([.env.example](file:///home/aminul/development/rag-lab/01-basic-rag/code/.env.example))
+### 1.4 Environment Variable Template ([.env.example](../code/.env.example))
 
 ```ini
 # OpenAI Configuration
@@ -141,7 +141,7 @@ RAG_SIMILARITY_METRIC=cosine # Options: cosine, dot_product, euclidean
 
 ---
 
-## 2. Core Domain Schemas ([src/schemas.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/schemas.ts))
+## 2. Core Domain Schemas ([src/schemas.ts](../code/src/schemas.ts))
 
 The domain schemas define the data structures flowing through every stage of the RAG pipeline.
 
@@ -234,7 +234,7 @@ export interface RAGResponse {
 
 ---
 
-## 3. System Configuration ([src/config.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/config.ts))
+## 3. System Configuration ([src/config.ts](../code/src/config.ts))
 
 Centralized system configuration handles pipeline defaults and loads environment variables cleanly.
 
@@ -303,7 +303,7 @@ export function loadConfigFromEnv(): RAGConfig {
 
 ---
 
-## 4. Public Library Barrel ([src/index.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/index.ts))
+## 4. Public Library Barrel ([src/index.ts](../code/src/index.ts))
 
 To expose all public contracts and classes when consumed as a library, `src/index.ts` re-exports all modules:
 

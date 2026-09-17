@@ -4,9 +4,9 @@ The Vector Store indexes chunk vector embeddings and performs similarity searche
 
 In this chapter, we cover:
 1. Mathematical foundations of vector similarity metrics (Cosine, Dot Product, Euclidean Distance).
-2. [src/vectordb/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/vectordb/base.ts) — The `VectorStore` interface contract.
-3. [src/vectordb/inMemory.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/vectordb/inMemory.ts) — In-memory vector database implementation supporting dynamic similarity search and metadata filtering.
-4. [tests/vectordb.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/vectordb.test.ts) — Jest unit test suite for the vector store.
+2. [src/vectordb/base.ts](../code/src/vectordb/base.ts) — The `VectorStore` interface contract.
+3. [src/vectordb/inMemory.ts](../code/src/vectordb/inMemory.ts) — In-memory vector database implementation supporting dynamic similarity search and metadata filtering.
+4. [tests/vectordb.test.ts](../code/tests/vectordb.test.ts) — Jest unit test suite for the vector store.
 
 ---
 
@@ -35,7 +35,7 @@ $$ S = \frac{1}{1 + D_{\text{Euclidean}}(\mathbf{A}, \mathbf{B})} $$
 
 ---
 
-## 2. Vector Store Interface ([src/vectordb/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/vectordb/base.ts))
+## 2. Vector Store Interface ([src/vectordb/base.ts](../code/src/vectordb/base.ts))
 
 ### Full Source Code
 
@@ -72,7 +72,7 @@ export interface VectorStore {
 
 ---
 
-## 3. In-Memory Vector Store ([src/vectordb/inMemory.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/vectordb/inMemory.ts))
+## 3. In-Memory Vector Store ([src/vectordb/inMemory.ts](../code/src/vectordb/inMemory.ts))
 
 ### Full Source Code
 
@@ -180,7 +180,7 @@ export class InMemoryVectorStore implements VectorStore {
 
 ---
 
-## 4. Vector Store Unit Tests ([tests/vectordb.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/vectordb.test.ts))
+## 4. Vector Store Unit Tests ([tests/vectordb.test.ts](../code/tests/vectordb.test.ts))
 
 ### Full Source Code
 

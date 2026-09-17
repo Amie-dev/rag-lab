@@ -7,11 +7,11 @@ Embedding models convert textual concepts into high-dimensional numerical vector
 ```
 
 In this chapter, we cover:
-1. [src/embeddings/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/base.ts) — The `EmbeddingModel` interface contract.
-2. [src/embeddings/mock.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/mock.ts) — Deterministic hash vectorizer for zero-dependency offline testing.
-3. [src/embeddings/openai.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/openai.ts) — `OpenAIEmbeddingModel` adapter.
-4. [src/embeddings/gemini.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/gemini.ts) — `GeminiEmbeddingModel` adapter.
-5. [tests/embeddings.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/embeddings.test.ts) — Jest unit test suite for embedding models.
+1. [src/embeddings/base.ts](../code/src/embeddings/base.ts) — The `EmbeddingModel` interface contract.
+2. [src/embeddings/mock.ts](../code/src/embeddings/mock.ts) — Deterministic hash vectorizer for zero-dependency offline testing.
+3. [src/embeddings/openai.ts](../code/src/embeddings/openai.ts) — `OpenAIEmbeddingModel` adapter.
+4. [src/embeddings/gemini.ts](../code/src/embeddings/gemini.ts) — `GeminiEmbeddingModel` adapter.
+5. [tests/embeddings.test.ts](../code/tests/embeddings.test.ts) — Jest unit test suite for embedding models.
 
 ---
 
@@ -33,7 +33,7 @@ $$ \text{CosineSimilarity}(\mathbf{A}_{\text{norm}}, \mathbf{B}_{\text{norm}}) =
 
 ---
 
-## 2. Embedding Model Interface ([src/embeddings/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/base.ts))
+## 2. Embedding Model Interface ([src/embeddings/base.ts](../code/src/embeddings/base.ts))
 
 ### Full Source Code
 
@@ -58,7 +58,7 @@ export interface EmbeddingModel {
 
 ---
 
-## 3. Deterministic Mock Embedder ([src/embeddings/mock.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/mock.ts))
+## 3. Deterministic Mock Embedder ([src/embeddings/mock.ts](../code/src/embeddings/mock.ts))
 
 To enable instant unit testing without API keys or network latency, `MockEmbeddingModel` hashes token strings deterministically into fixed vector dimensions ($d=64$) and applies $L_2$ unit normalization.
 
@@ -143,7 +143,7 @@ export class MockEmbeddingModel implements EmbeddingModel {
 
 ---
 
-## 4. OpenAI Embedding Adapter ([src/embeddings/openai.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/openai.ts))
+## 4. OpenAI Embedding Adapter ([src/embeddings/openai.ts](../code/src/embeddings/openai.ts))
 
 Integration with OpenAI's REST API (`text-embedding-3-small`, $d=1536$).
 
@@ -208,7 +208,7 @@ export class OpenAIEmbeddingModel implements EmbeddingModel {
 
 ---
 
-## 5. Google Gemini Embedding Adapter ([src/embeddings/gemini.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/gemini.ts))
+## 5. Google Gemini Embedding Adapter ([src/embeddings/gemini.ts](../code/src/embeddings/gemini.ts))
 
 Integration with Google Gemini REST API (`models/text-embedding-004`, $d=768$).
 
@@ -267,7 +267,7 @@ export class GeminiEmbeddingModel implements EmbeddingModel {
 
 ---
 
-## 6. Embedding Model Unit Tests ([tests/embeddings.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/embeddings.test.ts))
+## 6. Embedding Model Unit Tests ([tests/embeddings.test.ts](../code/tests/embeddings.test.ts))
 
 ### Full Source Code
 

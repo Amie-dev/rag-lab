@@ -3,13 +3,13 @@
 Document loaders represent the entry stage of the **Ingestion Phase**: taking raw data sources (local disk files, inline raw text strings, or directory structures) and transforming them into normalized `Document` objects containing raw text content and rich metadata.
 
 In this chapter, we implement and test:
-1. [src/loaders/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/loaders/base.ts) — The `DocumentLoader` strategy interface contract.
-2. [src/loaders/text.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/loaders/text.ts) — Concrete `TextDocumentLoader` supporting files, inline strings, MIME type detection, and recursive directory scanning.
-3. [tests/loaders.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/loaders.test.ts) — Jest unit test suite validating document loader behavior.
+1. [src/loaders/base.ts](../code/src/loaders/base.ts) — The `DocumentLoader` strategy interface contract.
+2. [src/loaders/text.ts](../code/src/loaders/text.ts) — Concrete `TextDocumentLoader` supporting files, inline strings, MIME type detection, and recursive directory scanning.
+3. [tests/loaders.test.ts](../code/tests/loaders.test.ts) — Jest unit test suite validating document loader behavior.
 
 ---
 
-## 1. Document Loader Interface ([src/loaders/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/loaders/base.ts))
+## 1. Document Loader Interface ([src/loaders/base.ts](../code/src/loaders/base.ts))
 
 Following the **Strategy Pattern** and **Interface Segregation Principle**, we define an abstract interface that any document loader implementation must satisfy.
 
@@ -38,7 +38,7 @@ export interface DocumentLoader {
 
 ---
 
-## 2. Text & Directory Document Loader ([src/loaders/text.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/loaders/text.ts))
+## 2. Text & Directory Document Loader ([src/loaders/text.ts](../code/src/loaders/text.ts))
 
 The `TextDocumentLoader` dynamically determines whether an input string is a valid file path on disk or inline text content. It reads the file safely, extracts extension-based MIME type metadata, and produces formatted `Document` instances.
 
@@ -146,7 +146,7 @@ export class TextDocumentLoader implements DocumentLoader {
 
 ---
 
-## 3. Document Loader Unit Tests ([tests/loaders.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/loaders.test.ts))
+## 3. Document Loader Unit Tests ([tests/loaders.test.ts](../code/tests/loaders.test.ts))
 
 The test suite validates inline content loading, disk file loading, and directory scanning using Jest.
 

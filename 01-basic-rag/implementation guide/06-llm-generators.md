@@ -4,10 +4,10 @@ The final stage of Retrieval-Augmented Generation is **Context Augmentation** an
 
 In this chapter, we cover:
 1. Prompt Engineering & Context Injection Strategies.
-2. [src/llm/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/base.ts) — The `LLMProvider` interface contract.
-3. [src/llm/mock.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/mock.ts) — Deterministic mock LLM generator.
-4. [src/llm/openai.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/openai.ts) — `OpenAILLMProvider` chat completion adapter (`gpt-4o-mini`).
-5. [src/llm/gemini.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/gemini.ts) — `GeminiLLMProvider` content generation adapter (`gemini-1.5-flash`).
+2. [src/llm/base.ts](../code/src/llm/base.ts) — The `LLMProvider` interface contract.
+3. [src/llm/mock.ts](../code/src/llm/mock.ts) — Deterministic mock LLM generator.
+4. [src/llm/openai.ts](../code/src/llm/openai.ts) — `OpenAILLMProvider` chat completion adapter (`gpt-4o-mini`).
+5. [src/llm/gemini.ts](../code/src/llm/gemini.ts) — `GeminiLLMProvider` content generation adapter (`gemini-1.5-flash`).
 
 ---
 
@@ -33,7 +33,7 @@ To eliminate hallucinations and restrict responses strictly to facts present in 
 
 ---
 
-## 2. LLM Provider Interface ([src/llm/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/base.ts))
+## 2. LLM Provider Interface ([src/llm/base.ts](../code/src/llm/base.ts))
 
 ### Full Source Code
 
@@ -55,7 +55,7 @@ export interface LLMProvider {
 
 ---
 
-## 3. Deterministic Mock LLM Provider ([src/llm/mock.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/mock.ts))
+## 3. Deterministic Mock LLM Provider ([src/llm/mock.ts](../code/src/llm/mock.ts))
 
 ### Full Source Code
 
@@ -96,7 +96,7 @@ export class MockLLMProvider implements LLMProvider {
 
 ---
 
-## 4. OpenAI Chat Provider ([src/llm/openai.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/openai.ts))
+## 4. OpenAI Chat Provider ([src/llm/openai.ts](../code/src/llm/openai.ts))
 
 Integration with OpenAI Chat Completions API (`/v1/chat/completions`).
 
@@ -170,7 +170,7 @@ If the context does not contain enough information to answer, state clearly that
 
 ---
 
-## 5. Google Gemini LLM Provider ([src/llm/gemini.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/gemini.ts))
+## 5. Google Gemini LLM Provider ([src/llm/gemini.ts](../code/src/llm/gemini.ts))
 
 Integration with Google Gemini REST API (`/v1beta/models/gemini-1.5-flash:generateContent`).
 

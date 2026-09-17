@@ -3,10 +3,10 @@
 Chunking is the process of splitting large documents into smaller, contiguous text snippets called **chunks**. 
 
 In this chapter, we cover the mathematical principles of chunking and implement:
-1. [src/splitters/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/splitters/base.ts) — The `TextSplitter` interface contract.
-2. [src/splitters/character.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/splitters/character.ts) — `RecursiveCharacterTextSplitter` with hierarchical separator fallback.
-3. [src/splitters/token.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/splitters/token.ts) — `TokenTextSplitter` based on word-token estimation.
-4. [tests/splitters.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/splitters.test.ts) — Jest unit test suite for text splitters.
+1. [src/splitters/base.ts](../code/src/splitters/base.ts) — The `TextSplitter` interface contract.
+2. [src/splitters/character.ts](../code/src/splitters/character.ts) — `RecursiveCharacterTextSplitter` with hierarchical separator fallback.
+3. [src/splitters/token.ts](../code/src/splitters/token.ts) — `TokenTextSplitter` based on word-token estimation.
+4. [tests/splitters.test.ts](../code/tests/splitters.test.ts) — Jest unit test suite for text splitters.
 
 ---
 
@@ -34,7 +34,7 @@ $$ I_0 = 0, \quad I_k = I_{k-1} + (C - O) = k \cdot (C - O) $$
 
 ---
 
-## 2. Text Splitter Interface ([src/splitters/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/splitters/base.ts))
+## 2. Text Splitter Interface ([src/splitters/base.ts](../code/src/splitters/base.ts))
 
 ### Full Source Code
 
@@ -56,7 +56,7 @@ export interface TextSplitter {
 
 ---
 
-## 3. Recursive Character Splitter ([src/splitters/character.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/splitters/character.ts))
+## 3. Recursive Character Splitter ([src/splitters/character.ts](../code/src/splitters/character.ts))
 
 The `RecursiveCharacterTextSplitter` attempts to split text using a hierarchical list of separators (`["\n\n", "\n", ". ", " ", ""]`). It looks for natural paragraph breaks (`"\n\n"`) first, falling back to line breaks (`"\n"`), sentence boundaries (`". "`), word spaces (`" "`), and finally individual characters (`""`).
 
@@ -184,7 +184,7 @@ export class RecursiveCharacterTextSplitter implements TextSplitter {
 
 ---
 
-## 4. Token-Aware Text Splitter ([src/splitters/token.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/splitters/token.ts))
+## 4. Token-Aware Text Splitter ([src/splitters/token.ts](../code/src/splitters/token.ts))
 
 When interfacing with LLMs, token count is more accurate than character count. `TokenTextSplitter` calculates chunk bounds using token estimation ($1 \text{ token} \approx 4 \text{ characters}$).
 
@@ -301,7 +301,7 @@ export class TokenTextSplitter implements TextSplitter {
 
 ---
 
-## 5. Text Splitter Unit Tests ([tests/splitters.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/splitters.test.ts))
+## 5. Text Splitter Unit Tests ([tests/splitters.test.ts](../code/tests/splitters.test.ts))
 
 ### Full Source Code
 

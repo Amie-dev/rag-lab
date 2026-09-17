@@ -3,14 +3,14 @@
 The pipeline module binds document loading, text splitting, vector embedding, vector storage, retrieval, and response synthesis into a clean, cohesive architecture using the **Structural Facade Pattern**.
 
 In this chapter, we implement:
-1. [src/pipeline/ingestion.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/ingestion.ts) — Ingestion Pipeline.
-2. [src/pipeline/retrieval.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/retrieval.ts) — Retrieval Engine.
-3. [src/pipeline/generation.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/generation.ts) — Generation Engine.
-4. [src/pipeline/basicRag.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/basicRag.ts) — Master `BasicRAGPipeline` facade class.
+1. [src/pipeline/ingestion.ts](../code/src/pipeline/ingestion.ts) — Ingestion Pipeline.
+2. [src/pipeline/retrieval.ts](../code/src/pipeline/retrieval.ts) — Retrieval Engine.
+3. [src/pipeline/generation.ts](../code/src/pipeline/generation.ts) — Generation Engine.
+4. [src/pipeline/basicRag.ts](../code/src/pipeline/basicRag.ts) — Master `BasicRAGPipeline` facade class.
 
 ---
 
-## 1. Ingestion Pipeline ([src/pipeline/ingestion.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/ingestion.ts))
+## 1. Ingestion Pipeline ([src/pipeline/ingestion.ts](../code/src/pipeline/ingestion.ts))
 
 Orchestrates loading raw files, chunking text, computing vector embeddings, and populating the vector database.
 
@@ -73,7 +73,7 @@ export class IngestionPipeline {
 
 ---
 
-## 2. Retrieval Engine ([src/pipeline/retrieval.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/retrieval.ts))
+## 2. Retrieval Engine ([src/pipeline/retrieval.ts](../code/src/pipeline/retrieval.ts))
 
 Computes the query vector embedding and queries the vector store for Top-K candidate chunks.
 
@@ -113,7 +113,7 @@ export class RetrievalEngine {
 
 ---
 
-## 3. Generation Engine ([src/pipeline/generation.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/generation.ts))
+## 3. Generation Engine ([src/pipeline/generation.ts](../code/src/pipeline/generation.ts))
 
 Invokes the configured LLM provider and measures generation latency.
 
@@ -156,7 +156,7 @@ export class GenerationEngine {
 
 ---
 
-## 4. Master Basic RAG Pipeline Facade ([src/pipeline/basicRag.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/basicRag.ts))
+## 4. Master Basic RAG Pipeline Facade ([src/pipeline/basicRag.ts](../code/src/pipeline/basicRag.ts))
 
 The `BasicRAGPipeline` facade encapsulates all internal components into a simple interface exposing high-level `ingest()` and `query()` methods.
 
