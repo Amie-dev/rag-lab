@@ -1,14 +1,19 @@
-# Chapter 8 — Interactive CLI & Unit Testing Suite
+# Chapter 8 — Interactive CLI, End-to-End Testing & Verification
 
-To complete our production-grade Basic RAG system, we build an interactive Command-Line Interface (CLI) and an automated Jest unit test suite.
+To complete our production-grade Basic RAG system, we build an interactive Command-Line Interface (CLI) and an automated Jest integration test suite.
+
+In this chapter, we cover:
+1. [src/cli.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/cli.ts) — Interactive CLI application built with Commander.
+2. [tests/pipeline.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/pipeline.test.ts) — End-to-end RAG engine integration test suite.
+3. **Execution Commands**: Build, run, and test instructions.
 
 ---
 
-## 1. Command-Line Interface (`src/cli.ts`)
+## 1. Command-Line Interface ([src/cli.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/cli.ts))
 
-The CLI provides two main subcommands:
-- `basic-rag ingest --path <file_or_dir>`
-- `basic-rag ask --question "<query>"`
+The CLI application exposes two primary subcommands:
+- `basic-rag ingest --path <file_or_directory>`: Ingests documents into the vector database.
+- `basic-rag ask --question "<query>"`: Performs vector search and synthesizes an answer.
 
 ### Full Source Code
 
@@ -125,11 +130,24 @@ program
 program.parse(process.argv);
 ```
 
+### 💡 Line-by-Line Breakdown & Command Handler Logic
+1. **Lines 35–73 (`ingest` Command)**:
+   - Takes mandatory `-p, --path` option pointing to a file or folder.
+   - Accepts optional `--chunk-size` and `--chunk-overlap` overrides.
+   - If target path is a directory, scans supported files, ingests documents sequentially, and logs total indexed chunks.
+
+2. **Lines 76–124 (`ask` Command)**:
+   - Takes mandatory `-q, --question` query string.
+   - Accepts optional `--dir` path (defaults to `sample_data`), auto-ingesting sample files if present.
+   - Executes `pipeline.query(question)` and displays formatted LLM answer, source document scores, chunk previews, and latency metrics.
+
 ---
 
-## 2. Unit Testing Suite (`tests/*`)
+## 2. Integration Test Suite ([tests/pipeline.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/pipeline.test.ts))
 
-### End-to-End Pipeline Test (`tests/pipeline.test.ts`)
+End-to-end integration test validating ingestion, vector indexing, retrieval, and answer generation using mock models.
+
+### Full Source Code
 
 ```typescript
 import { BasicRAGPipeline } from '../src/pipeline/basicRag';
@@ -170,12 +188,21 @@ describe('BasicRAGPipeline End-to-End', () => {
 
 ## 3. Running Build & Tests
 
-Execute the following commands in terminal:
+Execute the following commands in terminal from `01-basic-rag/code`:
 
 ```bash
-# Build TypeScript
+# 1. Install dependencies
+npm install
+
+# 2. Build TypeScript to ./dist
 npm run build
 
-# Run unit tests
+# 3. Execute all Jest unit & integration test suites
 npm test
+
+# 4. Ask a question via CLI using auto-ingested sample_data
+npm run start -- ask -q "How does vector similarity work?"
+
+# 5. Ingest custom document file
+npm run start -- ingest -p sample_data/vector_embeddings.md
 ```

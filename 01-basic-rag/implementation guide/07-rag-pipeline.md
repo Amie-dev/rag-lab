@@ -1,16 +1,20 @@
 # Chapter 7 — RAG Pipeline Orchestration
 
-The pipeline module combines document ingestion, vector retrieval, context augmentation, and LLM generation into a single unified facade class: `BasicRAGPipeline`.
+The pipeline module binds document loading, text splitting, vector embedding, vector storage, retrieval, and response synthesis into a clean, cohesive architecture using the **Structural Facade Pattern**.
 
-We implement four components:
-1. `src/pipeline/ingestion.ts` — Ingestion Pipeline.
-2. `src/pipeline/retrieval.ts` — Retrieval Engine.
-3. `src/pipeline/generation.ts` — Generation Engine.
-4. `src/pipeline/basicRag.ts` — `BasicRAGPipeline` Facade.
+In this chapter, we implement:
+1. [src/pipeline/ingestion.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/ingestion.ts) — Ingestion Pipeline.
+2. [src/pipeline/retrieval.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/retrieval.ts) — Retrieval Engine.
+3. [src/pipeline/generation.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/generation.ts) — Generation Engine.
+4. [src/pipeline/basicRag.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/basicRag.ts) — Master `BasicRAGPipeline` facade class.
 
 ---
 
-## 1. Ingestion Pipeline (`src/pipeline/ingestion.ts`)
+## 1. Ingestion Pipeline ([src/pipeline/ingestion.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/ingestion.ts))
+
+Orchestrates loading raw files, chunking text, computing vector embeddings, and populating the vector database.
+
+### Full Source Code
 
 ```typescript
 import { DocumentLoader } from '../loaders/base';
@@ -61,9 +65,19 @@ export class IngestionPipeline {
 }
 ```
 
+### 💡 Execution Steps Breakdown
+1. **Load**: `this.loader.load(filePathOrContent)` reads input into raw `Document[]`.
+2. **Split**: `this.splitter.splitDocuments(documents)` chunks documents into `Chunk[]`.
+3. **Embed**: `this.embeddingModel.embedDocuments(chunkTexts)` computes batch vector embeddings.
+4. **Index**: Constructs `VectorRecord[]` array and adds records to `this.vectorStore.add(records)`.
+
 ---
 
-## 2. Retrieval Engine (`src/pipeline/retrieval.ts`)
+## 2. Retrieval Engine ([src/pipeline/retrieval.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/retrieval.ts))
+
+Computes the query vector embedding and queries the vector store for Top-K candidate chunks.
+
+### Full Source Code
 
 ```typescript
 import { EmbeddingModel } from '../embeddings/base';
@@ -99,7 +113,11 @@ export class RetrievalEngine {
 
 ---
 
-## 3. Generation Engine (`src/pipeline/generation.ts`)
+## 3. Generation Engine ([src/pipeline/generation.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/generation.ts))
+
+Invokes the configured LLM provider and measures generation latency.
+
+### Full Source Code
 
 ```typescript
 import { LLMProvider } from '../llm/base';
@@ -138,7 +156,11 @@ export class GenerationEngine {
 
 ---
 
-## 4. Basic RAG Pipeline Facade (`src/pipeline/basicRag.ts`)
+## 4. Master Basic RAG Pipeline Facade ([src/pipeline/basicRag.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/pipeline/basicRag.ts))
+
+The `BasicRAGPipeline` facade encapsulates all internal components into a simple interface exposing high-level `ingest()` and `query()` methods.
+
+### Full Source Code
 
 ```typescript
 import { RAGConfig, defaultConfig } from '../config';
@@ -244,3 +266,7 @@ export class BasicRAGPipeline {
   }
 }
 ```
+
+### 💡 Design & Rationale
+- **Dependency Injection**: Allows callers to supply custom implementations for `loader`, `splitter`, `embeddingModel`, `vectorStore`, or `llmProvider`.
+- **Automatic Factory Initialization**: `initEmbeddingModel()` and `initLLMProvider()` inspect `this.config` and instantiate OpenAI, Gemini, or Mock providers automatically.

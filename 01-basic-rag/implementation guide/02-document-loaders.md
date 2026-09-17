@@ -1,16 +1,17 @@
 # Chapter 2 — Document Loading Architecture
 
-Document loaders are responsible for the first step of the **Ingestion Phase**: taking raw data sources (text files, Markdown documents, web pages, or raw string inputs) and converting them into normalized `Document` objects containing content and metadata.
+Document loaders represent the entry stage of the **Ingestion Phase**: taking raw data sources (local disk files, inline raw text strings, or directory structures) and transforming them into normalized `Document` objects containing raw text content and rich metadata.
 
-In this chapter, we implement:
-1. `src/loaders/base.ts` — The `DocumentLoader` interface contract.
-2. `src/loaders/text.ts` — The concrete `TextDocumentLoader` supporting text, Markdown, HTML, JSON, and directory loading.
+In this chapter, we implement and test:
+1. [src/loaders/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/loaders/base.ts) — The `DocumentLoader` strategy interface contract.
+2. [src/loaders/text.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/loaders/text.ts) — Concrete `TextDocumentLoader` supporting files, inline strings, MIME type detection, and recursive directory scanning.
+3. [tests/loaders.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/loaders.test.ts) — Jest unit test suite validating document loader behavior.
 
 ---
 
-## 1. Document Loader Interface (`src/loaders/base.ts`)
+## 1. Document Loader Interface ([src/loaders/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/loaders/base.ts))
 
-Following the **Strategy Pattern** and **Interface Segregation Principle**, we define an abstract interface that any document loader must satisfy.
+Following the **Strategy Pattern** and **Interface Segregation Principle**, we define an abstract interface that any document loader implementation must satisfy.
 
 ### Full Source Code
 
@@ -30,16 +31,16 @@ export interface DocumentLoader {
 }
 ```
 
-### 💡 Code Explanation
+### 💡 Code Explanation & Design Rationale
 
-- `load(filePathOrContent)`: Asynchronous method accepting either a local file system path or a raw text string. Returns an array of normalized `Document` objects.
-- `supportedExtensions()`: Returns an array of file extensions that the loader can process.
+- **`load(filePathOrContent)`**: Asynchronous method accepting either a local file system path or an inline text string payload. Returns an array of normalized `Document[]` objects. Returning an array allows single loaders to return multiple documents when loading compound payloads.
+- **`supportedExtensions()`**: Exposes an array of supported file extensions (e.g., `['.txt', '.md', '.json']`) allowing higher-level pipelines to filter directory files automatically.
 
 ---
 
-## 2. Text & Directory Document Loader (`src/loaders/text.ts`)
+## 2. Text & Directory Document Loader ([src/loaders/text.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/loaders/text.ts))
 
-The `TextDocumentLoader` checks whether the input string is a valid file path on disk or inline text content, reads the content safely, extracts file extension metadata, and returns formatted `Document` instances.
+The `TextDocumentLoader` dynamically determines whether an input string is a valid file path on disk or inline text content. It reads the file safely, extracts extension-based MIME type metadata, and produces formatted `Document` instances.
 
 ### Full Source Code
 
@@ -65,7 +66,7 @@ export class TextDocumentLoader implements DocumentLoader {
       source = path.resolve(filePathOrContent);
       filename = path.basename(filePathOrContent);
       content = fs.readFileSync(filePathOrContent, 'utf-8');
-      
+
       const ext = path.extname(filePathOrContent).toLowerCase();
       if (ext === '.md' || ext === '.markdown') fileType = 'text/markdown';
       else if (ext === '.json') fileType = 'application/json';
@@ -121,8 +122,78 @@ export class TextDocumentLoader implements DocumentLoader {
 }
 ```
 
-### 💡 Code Explanation & Key Details
+### 💡 Line-by-Line Breakdown & Rationale
 
-1. **Smart File Detection**: `fs.existsSync(filePathOrContent)` allows the method to accept both raw text strings (e.g., `loader.load("Hello RAG")`) and file paths (`loader.load("./docs/readme.md")`).
-2. **Metadata Enrichment**: Captures absolute file path, filename, detected MIME file type, and creation timestamp.
-3. **Directory Processing (`loadDirectory`)**: Scans an entire folder, filters files by supported extensions, and ingests all matching documents in batch.
+1. **Lines 53–55 (`supportedExtensions`)**:
+   - Declares supported file types: `.txt`, `.md`, `.markdown`, `.log`, `.json`, `.csv`, `.html`.
+
+2. **Lines 64–76 (Dual Disk vs Inline Check)**:
+   - `fs.existsSync(filePathOrContent) && fs.statSync(filePathOrContent).isFile()`: Dynamically verifies if the input parameter points to an active file on the disk.
+   - If true: Resolves absolute path (`source`), extracts file name (`filename`), reads UTF-8 content (`fs.readFileSync`), and maps file extensions (`.md` $\rightarrow$ `text/markdown`, `.json` $\rightarrow$ `application/json`, `.html` $\rightarrow$ `text/html`).
+   - If false: Treats input string as raw text directly, setting `source = 'inline_text_input'`.
+
+3. **Lines 78–80 (Empty Content Guard)**:
+   - If content is empty or contains only whitespace (`!content.trim()`), returns an empty array `[]` to prevent indexing zero-length documents.
+
+4. **Lines 82–95 (Unique ID Generation & Document Construction)**:
+   - Generates a unique document ID: `doc_<timestamp>_<random_base36_hash>`.
+   - Returns normalized `Document` object complete with source provenance and ISO timestamp.
+
+5. **Lines 98–120 (`loadDirectory`)**:
+   - Validates directory existence.
+   - Iterates through files, filtering by supported extensions (`exts.includes(ext)`).
+   - Recursively invokes `this.load(fullPath)` for each valid file, accumulating loaded documents into a unified list.
+
+---
+
+## 3. Document Loader Unit Tests ([tests/loaders.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/loaders.test.ts))
+
+The test suite validates inline content loading, disk file loading, and directory scanning using Jest.
+
+### Full Source Code
+
+```typescript
+import * as fs from 'fs';
+import * as path from 'path';
+import { TextDocumentLoader } from '../src/loaders/text';
+
+describe('TextDocumentLoader', () => {
+  const loader = new TextDocumentLoader();
+  const tempDir = path.join(__dirname, 'temp_loader_test');
+  const sampleFile = path.join(tempDir, 'test.txt');
+
+  beforeAll(() => {
+    if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir, { recursive: true });
+    fs.writeFileSync(sampleFile, 'Hello World Basic RAG Test Document', 'utf-8');
+  });
+
+  afterAll(() => {
+    if (fs.existsSync(tempDir)) fs.rmSync(tempDir, { recursive: true, force: true });
+  });
+
+  test('loads document from inline string', async () => {
+    const docs = await loader.load('Inline test content for RAG');
+    expect(docs).toHaveLength(1);
+    expect(docs[0].content).toBe('Inline test content for RAG');
+    expect(docs[0].metadata.source).toBe('inline_text_input');
+  });
+
+  test('loads document from file path', async () => {
+    const docs = await loader.load(sampleFile);
+    expect(docs).toHaveLength(1);
+    expect(docs[0].content).toBe('Hello World Basic RAG Test Document');
+    expect(docs[0].metadata.filename).toBe('test.txt');
+  });
+
+  test('loads directory of files', async () => {
+    const docs = await loader.loadDirectory(tempDir);
+    expect(docs.length).toBeGreaterThanOrEqual(1);
+  });
+});
+```
+
+### 💡 Unit Test Coverage Summary
+- **Lifecycle Management (`beforeAll` / `afterAll`)**: Creates a temporary directory and test file before running tests, and cleans up temporary files afterward.
+- **Inline String Test**: Verifies raw string input correctly assigns `source: 'inline_text_input'`.
+- **File Path Test**: Verifies file loading extracts correct content and sets `filename: 'test.txt'`.
+- **Directory Test**: Verifies batch directory processing reads files inside a folder.

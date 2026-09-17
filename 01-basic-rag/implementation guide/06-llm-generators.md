@@ -1,15 +1,41 @@
 # Chapter 6 — LLM Response Synthesis & Context Injection
 
-The final step of the Retrieval & Generation phase is **Context Augmentation** and **LLM Generation**.
+The final stage of Retrieval-Augmented Generation is **Context Augmentation** and **LLM Generation**. The LLM receives the user's question along with the Top-K retrieved chunks formatted into a strict system prompt to synthesize a grounded, accurate answer.
 
-The LLM is provided with:
-1. **System Instructions**: Strict rules to answer using ONLY the retrieved context.
-2. **Retrieved Context Chunks**: Top-K relevant text snippets with source attribution.
-3. **User Question**: The original question asked by the user.
+In this chapter, we cover:
+1. Prompt Engineering & Context Injection Strategies.
+2. [src/llm/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/base.ts) — The `LLMProvider` interface contract.
+3. [src/llm/mock.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/mock.ts) — Deterministic mock LLM generator.
+4. [src/llm/openai.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/openai.ts) — `OpenAILLMProvider` chat completion adapter (`gpt-4o-mini`).
+5. [src/llm/gemini.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/gemini.ts) — `GeminiLLMProvider` content generation adapter (`gemini-1.5-flash`).
 
 ---
 
-## 1. LLM Provider Interface (`src/llm/base.ts`)
+## 1. Prompt Engineering & Context Ingestion Architecture
+
+To eliminate hallucinations and restrict responses strictly to facts present in the knowledge base, the prompt template structures context chunks cleanly:
+
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│ SYSTEM PROMPT                                                          │
+│ You are a factual, concise AI assistant powered by Basic RAG.          │
+│ Use ONLY the following retrieved context chunks to answer the question. │
+│ If context is insufficient, state clearly that information is missing. │
+├────────────────────────────────────────────────────────────────────────┤
+│ RETRIEVED CONTEXT CHUNKS                                               │
+│ [Document 1] (Score: 0.942): <Content snippet 1>                       │
+│ [Document 2] (Score: 0.881): <Content snippet 2>                       │
+├────────────────────────────────────────────────────────────────────────┤
+│ USER QUESTION                                                          │
+│ <User question string>                                                 │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 2. LLM Provider Interface ([src/llm/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/base.ts))
+
+### Full Source Code
 
 ```typescript
 import { RetrievalResult } from '../schemas';
@@ -29,7 +55,9 @@ export interface LLMProvider {
 
 ---
 
-## 2. Deterministic Mock LLM Provider (`src/llm/mock.ts`)
+## 3. Deterministic Mock LLM Provider ([src/llm/mock.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/mock.ts))
+
+### Full Source Code
 
 ```typescript
 import { LLMProvider } from './base';
@@ -62,9 +90,17 @@ export class MockLLMProvider implements LLMProvider {
 }
 ```
 
+### 💡 Code Explanation
+- Formats retrieved chunks into indexed source attribution lines (`[Source N (filename, score)]`).
+- Generates a clear factual summary without requiring external API calls or network connectivity.
+
 ---
 
-## 3. OpenAI Chat Provider (`src/llm/openai.ts`)
+## 4. OpenAI Chat Provider ([src/llm/openai.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/openai.ts))
+
+Integration with OpenAI Chat Completions API (`/v1/chat/completions`).
+
+### Full Source Code
 
 ```typescript
 import { LLMProvider } from './base';
@@ -127,9 +163,18 @@ If the context does not contain enough information to answer, state clearly that
 }
 ```
 
+### 💡 Line-by-Line Breakdown
+- **Lines 90–92**: Formats context chunks into numbered blocks `[Document N] (Score: X.XXX)`.
+- **Lines 94–97**: Sets strict system rules preventing hallucinations and enforcing zero external knowledge assumption.
+- **Line 113**: Uses a low `temperature: 0.2` to ensure deterministic, focused generation.
+
 ---
 
-## 4. Google Gemini LLM Provider (`src/llm/gemini.ts`)
+## 5. Google Gemini LLM Provider ([src/llm/gemini.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/llm/gemini.ts))
+
+Integration with Google Gemini REST API (`/v1beta/models/gemini-1.5-flash:generateContent`).
+
+### Full Source Code
 
 ```typescript
 import { LLMProvider } from './base';

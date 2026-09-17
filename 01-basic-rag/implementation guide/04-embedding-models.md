@@ -1,20 +1,41 @@
-# Chapter 4 — Vector Embedding Models
+# Chapter 4 — Vector Embedding Models & Provider Adapters
 
-Embedding models convert textual concepts into high-dimensional numerical vector arrays ($ \mathbb{R}^d $). Words or paragraphs with similar semantic meanings map to nearby coordinates in vector space.
+Embedding models convert textual concepts into high-dimensional numerical vector arrays ($\mathbf{v} \in \mathbb{R}^d$). Words or paragraphs with similar semantic meanings map to nearby coordinates in vector space.
 
 ```text
-"How does authentication work?" ───> [0.021, -0.184, 0.723, ..., 0.051]
+"How does authentication work?" ───► [0.021, -0.184, 0.723, ..., 0.051]
 ```
 
-In this chapter, we implement:
-1. `src/embeddings/base.ts` — `EmbeddingModel` interface.
-2. `src/embeddings/mock.ts` — `MockEmbeddingModel` (Zero-dependency, deterministic vectorizer for offline testing).
-3. `src/embeddings/openai.ts` — `OpenAIEmbeddingModel`.
-4. `src/embeddings/gemini.ts` — `GeminiEmbeddingModel`.
+In this chapter, we cover:
+1. [src/embeddings/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/base.ts) — The `EmbeddingModel` interface contract.
+2. [src/embeddings/mock.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/mock.ts) — Deterministic hash vectorizer for zero-dependency offline testing.
+3. [src/embeddings/openai.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/openai.ts) — `OpenAIEmbeddingModel` adapter.
+4. [src/embeddings/gemini.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/gemini.ts) — `GeminiEmbeddingModel` adapter.
+5. [tests/embeddings.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/embeddings.test.ts) — Jest unit test suite for embedding models.
 
 ---
 
-## 1. Embedding Model Interface (`src/embeddings/base.ts`)
+## 1. Vector Space & $L_2$ Normalization
+
+Given a raw vector $\mathbf{v} = [v_1, v_2, \dots, v_d]$, its Euclidean norm (length) $\|\mathbf{v}\|_2$ is computed as:
+
+$$ \|\mathbf{v}\|_2 = \sqrt{\sum_{i=1}^d v_i^2} $$
+
+The $L_2$ unit normalized vector $\mathbf{v}_{\text{norm}}$ is calculated as:
+
+$$ \mathbf{v}_{\text{norm}} = \frac{\mathbf{v}}{\|\mathbf{v}\|_2} = \left[ \frac{v_1}{\|\mathbf{v}\|_2}, \frac{v_2}{\|\mathbf{v}\|_2}, \dots, \frac{v_d}{\|\mathbf{v}\|_2} \right] $$
+
+*Properties of $L_2$ normalized vectors*:
+- Length of $\mathbf{v}_{\text{norm}}$ is exactly 1: $\|\mathbf{v}_{\text{norm}}\|_2 = 1.0$.
+- Cosine similarity between two $L_2$ normalized vectors simplifies directly to their **Dot Product**:
+
+$$ \text{CosineSimilarity}(\mathbf{A}_{\text{norm}}, \mathbf{B}_{\text{norm}}) = \mathbf{A}_{\text{norm}} \cdot \mathbf{B}_{\text{norm}} $$
+
+---
+
+## 2. Embedding Model Interface ([src/embeddings/base.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/base.ts))
+
+### Full Source Code
 
 ```typescript
 export interface EmbeddingModel {
@@ -37,11 +58,9 @@ export interface EmbeddingModel {
 
 ---
 
-## 2. Deterministic Mock Embedder (`src/embeddings/mock.ts`)
+## 3. Deterministic Mock Embedder ([src/embeddings/mock.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/mock.ts))
 
-To allow instant testing without requiring an API key or internet access, we implement a deterministic `MockEmbeddingModel`. It hashes text tokens into fixed vector dimensions and applies $ L_2 $ normalization:
-
-$$ \mathbf{v}_{\text{norm}} = \frac{\mathbf{v}}{\|\mathbf{v}\|_2} $$
+To enable instant unit testing without API keys or network latency, `MockEmbeddingModel` hashes token strings deterministically into fixed vector dimensions ($d=64$) and applies $L_2$ unit normalization.
 
 ### Full Source Code
 
@@ -108,9 +127,27 @@ export class MockEmbeddingModel implements EmbeddingModel {
 }
 ```
 
+### 💡 Line-by-Line Breakdown & Rationale
+
+1. **Lines 70–73 (Tokenization)**:
+   - Converts input text to lowercase and strips special characters (`[^a-z0-9\s]`).
+   - Splits on whitespace into token strings.
+
+2. **Lines 81–89 (32-Bit Bitwise Hash Distribution)**:
+   - Uses bitwise hash `(hash << 5) - hash + token.charCodeAt(i)` (equivalent to `hash * 31 + char`).
+   - Maps each token's hash to a vector index `Math.abs(hash) % this.dim` and increments frequency count.
+
+3. **Lines 92–104 ($L_2$ Normalization Routine)**:
+   - Calculates Euclidean norm `norm = Math.sqrt(sum(v_i^2))`.
+   - Divides each vector dimension by `norm` to yield a unit vector where $\|\mathbf{v}\|_2 = 1.0$.
+
 ---
 
-## 3. OpenAI Embedding Adapter (`src/embeddings/openai.ts`)
+## 4. OpenAI Embedding Adapter ([src/embeddings/openai.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/openai.ts))
+
+Integration with OpenAI's REST API (`text-embedding-3-small`, $d=1536$).
+
+### Full Source Code
 
 ```typescript
 import { EmbeddingModel } from './base';
@@ -165,9 +202,17 @@ export class OpenAIEmbeddingModel implements EmbeddingModel {
 }
 ```
 
+### 💡 Key Details
+- **Batch Processing**: Sends multiple document texts in a single HTTP POST request to `https://api.openai.com/v1/embeddings`.
+- **Index Sorting**: Sorts returned embeddings by item `index` to ensure output array order strictly matches input array order.
+
 ---
 
-## 4. Google Gemini Embedding Adapter (`src/embeddings/gemini.ts`)
+## 5. Google Gemini Embedding Adapter ([src/embeddings/gemini.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/src/embeddings/gemini.ts))
+
+Integration with Google Gemini REST API (`models/text-embedding-004`, $d=768$).
+
+### Full Source Code
 
 ```typescript
 import { EmbeddingModel } from './base';
@@ -219,3 +264,40 @@ export class GeminiEmbeddingModel implements EmbeddingModel {
   }
 }
 ```
+
+---
+
+## 6. Embedding Model Unit Tests ([tests/embeddings.test.ts](file:///home/aminul/development/rag-lab/01-basic-rag/code/tests/embeddings.test.ts))
+
+### Full Source Code
+
+```typescript
+import { MockEmbeddingModel } from '../src/embeddings/mock';
+
+describe('MockEmbeddingModel', () => {
+  const embedder = new MockEmbeddingModel(32);
+
+  test('dimension returns specified vector size', () => {
+    expect(embedder.dimension()).toBe(32);
+  });
+
+  test('embedQuery generates normalized vector', async () => {
+    const vec = await embedder.embedQuery('RAG Architecture');
+    expect(vec).toHaveLength(32);
+    // Check vector norm ~ 1.0
+    const norm = Math.sqrt(vec.reduce((sum, val) => sum + val * val, 0));
+    expect(norm).toBeCloseTo(1.0, 4);
+  });
+
+  test('semantically identical texts have identical vectors', async () => {
+    const vec1 = await embedder.embedQuery('Vector Database Similarity');
+    const vec2 = await embedder.embedQuery('Vector Database Similarity');
+    expect(vec1).toEqual(vec2);
+  });
+});
+```
+
+### 💡 Unit Test Coverage Summary
+- Verifies output vector dimension matches requested size ($d=32$).
+- Validates $L_2$ norm equals 1.0 (`expect(norm).toBeCloseTo(1.0, 4)`).
+- Verifies determinism: identical text inputs produce identical vector representations.
