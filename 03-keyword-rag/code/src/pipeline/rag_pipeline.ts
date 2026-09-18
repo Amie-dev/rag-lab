@@ -12,6 +12,7 @@ import { RecursiveCharacterTextSplitter, TextSplitter } from '../splitters/text_
 import { LLMProvider } from '../llm/base';
 import { MockLLMProvider } from '../llm/mock';
 import { OpenAILLMProvider } from '../llm/openai';
+import { GeminiLLMProvider } from '../llm/gemini';
 import { TextFileLoader, MarkdownLoader, DirectoryLoader } from '../loaders/file';
 
 export interface RAGPipelineOptions {
@@ -20,6 +21,7 @@ export interface RAGPipelineOptions {
   splitter?: TextSplitter;
   llmProvider?: LLMProvider;
   useOpenAI?: boolean;
+  useGemini?: boolean;
 }
 
 export class KeywordRAGPipeline {
@@ -37,6 +39,8 @@ export class KeywordRAGPipeline {
 
     if (options.llmProvider) {
       this.llmProvider = options.llmProvider;
+    } else if (options.useGemini || process.env.GEMINI_API_KEY) {
+      this.llmProvider = new GeminiLLMProvider();
     } else if (options.useOpenAI || process.env.OPENAI_API_KEY) {
       this.llmProvider = new OpenAILLMProvider();
     } else {

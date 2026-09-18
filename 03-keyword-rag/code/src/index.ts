@@ -16,5 +16,7 @@ export * from './loaders/file';
 export * from './splitters/text_splitter';
 export * from './llm/base';
 export * from './llm/openai';
+export * from './llm/gemini';
 export * from './llm/mock';
 export * from './pipeline/rag_pipeline';
+
