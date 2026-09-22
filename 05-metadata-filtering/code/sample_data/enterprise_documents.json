@@ -1,0 +1,86 @@
+[
+  {
+    "id": "doc_tenant101_refund_pdf",
+    "content": "Tenant 101 Official Finance Policy: Refund requests for annual enterprise software subscriptions are processed within 14 business days. All customer refunds require dual approval from the Finance department controller.",
+    "metadata": {
+      "tenant_id": "tenant_101",
+      "department": "finance",
+      "file_type": "pdf",
+      "document_type": "policy",
+      "created_at": "2026-03-15",
+      "access_level": 2,
+      "is_public": false,
+      "language": "en"
+    }
+  },
+  {
+    "id": "doc_tenant101_hr_leave_pdf",
+    "content": "Tenant 101 Employee Handbook: Employees are eligible for 20 days of paid annual leave and 10 days of sick leave. Leave requests must be submitted through HR portal 2 weeks in advance.",
+    "metadata": {
+      "tenant_id": "tenant_101",
+      "department": "hr",
+      "file_type": "pdf",
+      "document_type": "handbook",
+      "created_at": "2026-01-10",
+      "access_level": 2,
+      "is_public": true,
+      "language": "en"
+    }
+  },
+  {
+    "id": "doc_tenant101_eng_api_md",
+    "content": "Tenant 101 Engineering Spec 2026: The microservice architecture transitions to OAuth2 JWT bearer tokens. Rate limits are set to 1000 requests per minute per tenant API key.",
+    "metadata": {
+      "tenant_id": "tenant_101",
+      "department": "engineering",
+      "file_type": "md",
+      "document_type": "specification",
+      "created_at": "2026-05-20",
+      "access_level": 3,
+      "is_public": false,
+      "language": "en"
+    }
+  },
+  {
+    "id": "doc_tenant102_refund_pdf",
+    "content": "Tenant 102 Enterprise Policy: All purchases are final and non-refundable unless stated in custom service level agreement contracts. Refunds are approved exclusively by Executive Vice President.",
+    "metadata": {
+      "tenant_id": "tenant_102",
+      "department": "finance",
+      "file_type": "pdf",
+      "document_type": "policy",
+      "created_at": "2026-02-01",
+      "access_level": 2,
+      "is_public": false,
+      "language": "en"
+    }
+  },
+  {
+    "id": "doc_tenant102_eng_arch_txt",
+    "content": "Tenant 102 System Design: Vector database index uses HNSW graphs with M=16 and ef_construction=64 for pre-filtered vector similarity search across multi-tenant partitions.",
+    "metadata": {
+      "tenant_id": "tenant_102",
+      "department": "engineering",
+      "file_type": "txt",
+      "document_type": "architecture",
+      "created_at": "2026-04-12",
+      "access_level": 3,
+      "is_public": false,
+      "language": "en"
+    }
+  },
+  {
+    "id": "doc_tenant101_exec_audit_pdf",
+    "content": "Tenant 101 Confidential Security Audit 2026: Executive summary of annual SOC2 compliance audit. Zero critical vulnerabilities found across API gateways.",
+    "metadata": {
+      "tenant_id": "tenant_101",
+      "department": "executive",
+      "file_type": "pdf",
+      "document_type": "audit",
+      "created_at": "2026-08-01",
+      "access_level": 4,
+      "is_public": false,
+      "language": "en"
+    }
+  }
+]
