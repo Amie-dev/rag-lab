@@ -3,7 +3,7 @@
  * Supports OpenAI API with deterministic zero-dependency local fallback.
  */
 
-import { config } from '../config/index.js';
+import { config } from '../config/index';
 
 export class EmbeddingService {
   private dimension: number = 1536;

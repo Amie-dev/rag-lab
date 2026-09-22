@@ -4,11 +4,11 @@
 
 import express, { Express } from 'express';
 import cors from 'cors';
-import { RAGService } from './services/ragService.js';
-import { BenchmarkService } from './services/benchmarkService.js';
-import { authMiddleware } from './middlewares/auth.middleware.js';
-import { errorMiddleware } from './middlewares/error.middleware.js';
-import { createApiRouter } from './routes/index.js';
+import { RAGService } from './services/ragService';
+import { BenchmarkService } from './services/benchmarkService';
+import { authMiddleware } from './middlewares/auth.middleware';
+import { errorMiddleware } from './middlewares/error.middleware';
+import { createApiRouter } from './routes/index';
 
 export function createApp(
   ragService?: RAGService,

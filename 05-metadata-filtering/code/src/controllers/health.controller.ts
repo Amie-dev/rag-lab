@@ -3,8 +3,8 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import { RAGService } from '../services/ragService.js';
-import { config } from '../config/index.js';
+import { RAGService } from '../services/ragService';
+import { config } from '../config/index';
 
 export class HealthController {
   private ragService: RAGService;

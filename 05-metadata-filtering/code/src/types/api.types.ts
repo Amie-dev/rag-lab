@@ -2,8 +2,8 @@
  * API Data Transfer Objects (DTOs) and Request Context Definitions
  */
 
-import { MetadataFilter, RetrievalResult, SearchMode } from './filter.types.js';
-import { ChunkMetadata } from './document.types.js';
+import { MetadataFilter, RetrievalResult, SearchMode } from './filter.types';
+import { ChunkMetadata } from './document.types';
 
 export interface AuthenticatedUser {
   user_id: string;

@@ -2,13 +2,13 @@
  * Core Metadata-Filtered RAG Service Engine
  */
 
-import { Chunk, Document, DocumentMetadata, VectorRecord } from '../types/document.types.js';
-import { MetadataFilter, RetrievalResult, SearchMode } from '../types/filter.types.js';
-import { AuthenticatedUser, IngestDocumentDTO, RAGQueryDTO, RAGResponseDTO, SearchQueryDTO } from '../types/api.types.js';
-import { MemoryVectorStore } from '../vectordb/memoryVectorStore.js';
-import { EmbeddingService } from './embeddingService.js';
-import { LLMService } from './llmService.js';
-import { SecurityFilterBuilder } from '../filters/securityFilter.js';
+import { Chunk, Document, DocumentMetadata, VectorRecord } from '../types/document.types';
+import { MetadataFilter, RetrievalResult, SearchMode } from '../types/filter.types';
+import { AuthenticatedUser, IngestDocumentDTO, RAGQueryDTO, RAGResponseDTO, SearchQueryDTO } from '../types/api.types';
+import { MemoryVectorStore } from '../vectordb/memoryVectorStore';
+import { EmbeddingService } from './embeddingService';
+import { LLMService } from './llmService';
+import { SecurityFilterBuilder } from '../filters/securityFilter';
 
 export class RAGService {
   private vectorStore: MemoryVectorStore;

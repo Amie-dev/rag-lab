@@ -3,8 +3,8 @@
  * Evaluates document/chunk metadata against structured boolean filter expressions.
  */
 
-import { ChunkMetadata } from '../types/document.types.js';
-import { ConditionFilter, FilterValue, MetadataFilter } from '../types/filter.types.js';
+import { ChunkMetadata } from '../types/document.types';
+import { ConditionFilter, FilterValue, MetadataFilter } from '../types/filter.types';
 
 export class FilterEvaluator {
   /**

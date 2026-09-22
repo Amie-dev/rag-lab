@@ -5,9 +5,10 @@
 import { Command } from 'commander';
 import fs from 'fs';
 import path from 'path';
-import { RAGService } from './services/ragService.js';
-import { BenchmarkService } from './services/benchmarkService.js';
-import { AuthenticatedUser, IngestDocumentDTO } from './types/api.types.js';
+import { RAGService } from './services/ragService';
+import { BenchmarkService } from './services/benchmarkService';
+import { AuthenticatedUser, IngestDocumentDTO } from './types/api.types';
+import { MetadataFilter } from './types/filter.types';
 
 const program = new Command();
 const ragService = new RAGService();
@@ -63,7 +64,7 @@ program
       access_level: 3,
     };
 
-    const filter: Record<string, unknown> = {};
+    const filter: MetadataFilter = {};
     if (options.department) filter.department = options.department;
     if (options.fileType) filter.file_type = options.fileType;
 
@@ -105,7 +106,7 @@ program
       access_level: 3,
     };
 
-    const filter: Record<string, unknown> = {};
+    const filter: MetadataFilter = {};
     if (options.department) filter.department = options.department;
 
     console.log(`\n🤖 Executing Metadata-Filtered RAG Pipeline...`);

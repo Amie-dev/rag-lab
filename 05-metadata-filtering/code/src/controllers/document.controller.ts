@@ -3,7 +3,7 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import { RAGService } from '../services/ragService.js';
+import { RAGService } from '../services/ragService';
 import { z } from 'zod';
 
 export const ingestDocumentSchema = z.object({

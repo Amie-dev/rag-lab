@@ -3,8 +3,8 @@
  * Enforces Multi-Tenant Isolation and Access Control Policy Guards.
  */
 
-import { AuthenticatedUser } from '../types/api.types.js';
-import { MetadataFilter } from '../types/filter.types.js';
+import { AuthenticatedUser } from '../types/api.types';
+import { MetadataFilter } from '../types/filter.types';
 
 export class SecurityFilterBuilder {
   /**

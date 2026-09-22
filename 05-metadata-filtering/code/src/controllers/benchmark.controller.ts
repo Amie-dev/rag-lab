@@ -3,7 +3,7 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import { BenchmarkService } from '../services/benchmarkService.js';
+import { BenchmarkService } from '../services/benchmarkService';
 import { z } from 'zod';
 
 export const benchmarkSchema = z.object({

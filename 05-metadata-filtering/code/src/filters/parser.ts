@@ -2,7 +2,7 @@
  * Metadata Filter Parser & Helper Utilities
  */
 
-import { MetadataFilter } from '../types/filter.types.js';
+import { MetadataFilter } from '../types/filter.types';
 
 export class FilterParser {
   /**

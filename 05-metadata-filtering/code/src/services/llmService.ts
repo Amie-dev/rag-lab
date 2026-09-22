@@ -3,8 +3,8 @@
  * Supports OpenAI Chat Completion API with local fallback synthesizer.
  */
 
-import { config } from '../config/index.js';
-import { Chunk } from '../types/document.types.js';
+import { config } from '../config/index';
+import { Chunk } from '../types/document.types';
 
 export class LLMService {
   /**

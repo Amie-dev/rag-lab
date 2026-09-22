@@ -3,9 +3,9 @@
  */
 
 import { Router } from 'express';
-import { DocumentController, ingestDocumentSchema } from '../controllers/document.controller.js';
-import { validateBody } from '../middlewares/validate.middleware.js';
-import { RAGService } from '../services/ragService.js';
+import { DocumentController, ingestDocumentSchema } from '../controllers/document.controller';
+import { validateBody } from '../middlewares/validate.middleware';
+import { RAGService } from '../services/ragService';
 
 export function createDocumentRouter(ragService: RAGService): Router {
   const router = Router();

@@ -3,9 +3,9 @@
  */
 
 import { Router } from 'express';
-import { RAGController, ragQuerySchema } from '../controllers/rag.controller.js';
-import { validateBody } from '../middlewares/validate.middleware.js';
-import { RAGService } from '../services/ragService.js';
+import { RAGController, ragQuerySchema } from '../controllers/rag.controller';
+import { validateBody } from '../middlewares/validate.middleware';
+import { RAGService } from '../services/ragService';
 
 export function createRAGRouter(ragService: RAGService): Router {
   const router = Router();

@@ -3,13 +3,13 @@
  */
 
 import { Router } from 'express';
-import { RAGService } from '../services/ragService.js';
-import { BenchmarkService } from '../services/benchmarkService.js';
-import { createDocumentRouter } from './document.routes.js';
-import { createSearchRouter } from './search.routes.js';
-import { createRAGRouter } from './rag.routes.js';
-import { createBenchmarkRouter } from './benchmark.routes.js';
-import { createHealthRouter } from './health.routes.js';
+import { RAGService } from '../services/ragService';
+import { BenchmarkService } from '../services/benchmarkService';
+import { createDocumentRouter } from './document.routes';
+import { createSearchRouter } from './search.routes';
+import { createRAGRouter } from './rag.routes';
+import { createBenchmarkRouter } from './benchmark.routes';
+import { createHealthRouter } from './health.routes';
 
 export function createApiRouter(
   ragService: RAGService,

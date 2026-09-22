@@ -2,6 +2,8 @@
  * Metadata Filtering Expression Types and Operators
  */
 
+import { Chunk } from './document.types';
+
 export type FilterValue = string | number | boolean | Array<string | number>;
 
 export type ComparisonOperator =

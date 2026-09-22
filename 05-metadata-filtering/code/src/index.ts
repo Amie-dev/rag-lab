@@ -2,16 +2,16 @@
  * Library Export Entry Point
  */
 
-export * from './types/document.types.js';
-export * from './types/filter.types.js';
-export * from './types/api.types.js';
-export * from './filters/evaluator.js';
-export * from './filters/securityFilter.js';
-export * from './filters/parser.js';
-export * from './vectordb/distance.js';
-export * from './vectordb/memoryVectorStore.js';
-export * from './services/embeddingService.js';
-export * from './services/llmService.js';
-export * from './services/ragService.js';
-export * from './services/benchmarkService.js';
-export * from './app.js';
+export * from './types/document.types';
+export * from './types/filter.types';
+export * from './types/api.types';
+export * from './filters/evaluator';
+export * from './filters/securityFilter';
+export * from './filters/parser';
+export * from './vectordb/distance';
+export * from './vectordb/memoryVectorStore';
+export * from './services/embeddingService';
+export * from './services/llmService';
+export * from './services/ragService';
+export * from './services/benchmarkService';
+export * from './app';

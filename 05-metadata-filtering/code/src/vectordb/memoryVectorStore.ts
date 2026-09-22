@@ -2,10 +2,10 @@
  * In-Memory Vector Store with Pre-Filtering and Post-Filtering Engine
  */
 
-import { Chunk, VectorRecord } from '../types/document.types.js';
-import { MetadataFilter, RetrievalOptions, RetrievalResult, SearchMode } from '../types/filter.types.js';
-import { FilterEvaluator } from '../filters/evaluator.js';
-import { DistanceMetrics } from './distance.js';
+import { Chunk, VectorRecord } from '../types/document.types';
+import { MetadataFilter, RetrievalOptions, RetrievalResult, SearchMode } from '../types/filter.types';
+import { FilterEvaluator } from '../filters/evaluator';
+import { DistanceMetrics } from './distance';
 
 export class MemoryVectorStore {
   private records: Map<string, VectorRecord> = new Map();

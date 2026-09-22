@@ -3,9 +3,9 @@
  */
 
 import { Router } from 'express';
-import { BenchmarkController, benchmarkSchema } from '../controllers/benchmark.controller.js';
-import { validateBody } from '../middlewares/validate.middleware.js';
-import { BenchmarkService } from '../services/benchmarkService.js';
+import { BenchmarkController, benchmarkSchema } from '../controllers/benchmark.controller';
+import { validateBody } from '../middlewares/validate.middleware';
+import { BenchmarkService } from '../services/benchmarkService';
 
 export function createBenchmarkRouter(benchmarkService: BenchmarkService): Router {
   const router = Router();

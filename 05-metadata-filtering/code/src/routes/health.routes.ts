@@ -3,8 +3,8 @@
  */
 
 import { Router } from 'express';
-import { HealthController } from '../controllers/health.controller.js';
-import { RAGService } from '../services/ragService.js';
+import { HealthController } from '../controllers/health.controller';
+import { RAGService } from '../services/ragService';
 
 export function createHealthRouter(ragService: RAGService): Router {
   const router = Router();

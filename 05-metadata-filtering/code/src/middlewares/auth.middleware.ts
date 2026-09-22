@@ -4,7 +4,7 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import { AuthenticatedUser } from '../types/api.types.js';
+import { AuthenticatedUser } from '../types/api.types';
 
 // Extend Express Request type
 declare global {

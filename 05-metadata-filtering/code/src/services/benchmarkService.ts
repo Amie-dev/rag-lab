@@ -2,8 +2,8 @@
  * Pre-Filtering vs Post-Filtering Benchmark Service Engine
  */
 
-import { BenchmarkComparisonResultDTO, BenchmarkQueryDTO } from '../types/api.types.js';
-import { RAGService } from './ragService.js';
+import { BenchmarkComparisonResultDTO, BenchmarkQueryDTO } from '../types/api.types';
+import { RAGService } from './ragService';
 
 export class BenchmarkService {
   private ragService: RAGService;
