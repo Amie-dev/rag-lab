@@ -1,0 +1,74 @@
+[
+  {
+    "id": "doc-auth-001",
+    "content": "To reset your account password, open Settings -> Security -> Reset Password. Follow the email link sent to your registered email address to enter a new secure password.",
+    "metadata": {
+      "title": "Account Password Reset Procedure",
+      "category": "authentication",
+      "tags": ["security", "password", "reset", "account"]
+    }
+  },
+  {
+    "id": "doc-auth-002",
+    "content": "Users can change their account email address and profile notification preferences from the General Settings panel.",
+    "metadata": {
+      "title": "Changing Account Profile & Email Preferences",
+      "category": "account",
+      "tags": ["account", "email", "settings", "profile"]
+    }
+  },
+  {
+    "id": "doc-auth-003",
+    "content": "Multi-Factor Authentication (MFA) setup requires binding an Authenticator app (e.g., Google Authenticator) or entering TOTP verification codes during login.",
+    "metadata": {
+      "title": "Multi-Factor Authentication (MFA) Setup Guide",
+      "category": "authentication",
+      "tags": ["mfa", "totp", "security", "login"]
+    }
+  },
+  {
+    "id": "doc-billing-001",
+    "content": "Subscription Refund Policy: Customers are eligible for a full refund within 14 days of purchase if monthly software usage is below 100 API credits.",
+    "metadata": {
+      "title": "Subscription Billing & Refund Policy",
+      "category": "billing",
+      "tags": ["refund", "billing", "payment", "subscription"]
+    }
+  },
+  {
+    "id": "doc-billing-002",
+    "content": "Invoices and monthly payment receipts can be downloaded as PDF documents from the Billing History tab.",
+    "metadata": {
+      "title": "Downloading Payment Invoices & Receipts",
+      "category": "billing",
+      "tags": ["invoice", "receipt", "billing", "pdf"]
+    }
+  },
+  {
+    "id": "doc-infra-001",
+    "content": "Database Connection Pooling: Set minPoolSize=5 and maxPoolSize=50 in PostgreSQL configuration to prevent client connection starvation during peak traffic spikes.",
+    "metadata": {
+      "title": "PostgreSQL Connection Pool Optimization Guide",
+      "category": "database",
+      "tags": ["database", "postgresql", "connection-pool", "performance"]
+    }
+  },
+  {
+    "id": "doc-infra-002",
+    "content": "Handling API HTTP 429 Rate Limits: Clients encountering 429 Too Many Requests should implement exponential backoff retry algorithms with randomized jitter.",
+    "metadata": {
+      "title": "API Rate Limiting & Retry Best Practices",
+      "category": "infrastructure",
+      "tags": ["rate-limit", "http-429", "retry", "api"]
+    }
+  },
+  {
+    "id": "doc-sec-001",
+    "content": "Multi-Tenant Data Security: Tenant data must be segregated using tenant-id database predicates or schema isolation to enforce zero cross-tenant access leakage.",
+    "metadata": {
+      "title": "Multi-Tenant Isolation Architecture Security",
+      "category": "security",
+      "tags": ["multi-tenant", "isolation", "security", "privacy"]
+    }
+  }
+]
