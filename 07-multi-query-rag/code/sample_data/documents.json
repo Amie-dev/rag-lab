@@ -1,0 +1,83 @@
+[
+  {
+    "id": "doc_auth_01",
+    "content": "Authentication System Overview: Our platform uses JSON Web Tokens (JWT) for stateless session handling. Users log in with credentials and receive an Access Token (15-min TTL) and a Refresh Token (7-day TTL). Authorization headers must accompany every API request.",
+    "metadata": {
+      "title": "Authentication System Architecture",
+      "category": "security",
+      "tags": ["auth", "jwt", "login"]
+    }
+  },
+  {
+    "id": "doc_auth_02",
+    "content": "Session Expiration & Token Invalidation: When a user's session expires or they log out, the server places the JWT Refresh Token into a Redis blacklist. Any subsequent attempts to access protected routes will result in HTTP 401 Unauthorized, and the frontend client must redirect the user to /login.",
+    "metadata": {
+      "title": "Session Expiration & Token Blacklisting",
+      "category": "security",
+      "tags": ["session", "expiration", "blacklist", "redirect"]
+    }
+  },
+  {
+    "id": "doc_auth_03",
+    "content": "Protected Route Guard Implementation: Next.js and React Router protected pages are wrapped with AuthGuard middleware. If access token is expired and refresh token fails validation, all in-flight requests are cancelled and local storage credentials cleared.",
+    "metadata": {
+      "title": "Client-Side Protected Route Guards",
+      "category": "frontend",
+      "tags": ["authguard", "routes", "protected-pages"]
+    }
+  },
+  {
+    "id": "doc_billing_01",
+    "content": "Subscription Billing & Refund Policy: Enterprise subscribers are eligible for a full pro-rata refund within 14 calendar days of annual renewal. Monthly plans are non-refundable after 48 hours of billing execution.",
+    "metadata": {
+      "title": "Subscription Refund Policy",
+      "category": "billing",
+      "tags": ["refund", "billing", "subscription"]
+    }
+  },
+  {
+    "id": "doc_billing_02",
+    "content": "Payment Gateway Cancellation Flow: When a customer requests plan cancellation via Customer Portal, subscription status converts to pending_cancellation until current period end date.",
+    "metadata": {
+      "title": "Subscription Cancellation Workflow",
+      "category": "billing",
+      "tags": ["cancellation", "payment"]
+    }
+  },
+  {
+    "id": "doc_db_01",
+    "content": "PostgreSQL Query Performance Optimization: Slow executing SQL queries exceeding 100ms log execution plans via pg_stat_statements. Adding composite B-Tree indexes on heavily filtered columns eliminates sequential table scans.",
+    "metadata": {
+      "title": "Database Query Optimization & Indexing",
+      "category": "database",
+      "tags": ["postgres", "indexing", "performance"]
+    }
+  },
+  {
+    "id": "doc_db_02",
+    "content": "Redis Caching Strategy: Frequently accessed user profile data is cached in Redis with a 5-minute Sliding Expiration window to alleviate primary database load.",
+    "metadata": {
+      "title": "Redis Distributed Caching Strategy",
+      "category": "database",
+      "tags": ["redis", "caching", "performance"]
+    }
+  },
+  {
+    "id": "doc_infra_01",
+    "content": "API Rate Limiting & Token Bucket Algorithm: API Gateway enforces rate limits of 100 requests per minute per IP using a Redis-backed Token Bucket algorithm. HTTP 429 Too Many Requests response headers specify retry time.",
+    "metadata": {
+      "title": "API Gateway Rate Limiting Policy",
+      "category": "infrastructure",
+      "tags": ["rate-limiting", "token-bucket", "api-gateway"]
+    }
+  },
+  {
+    "id": "doc_infra_02",
+    "content": "Microservice Circuit Breaker & Resiliency: External RPC calls to payment and notification services use Resilience4j Circuit Breaker. If failure rate exceeds 50%, circuit opens immediately to prevent cascading service failure.",
+    "metadata": {
+      "title": "Microservice Resilience & Circuit Breaker",
+      "category": "infrastructure",
+      "tags": ["circuit-breaker", "resiliency", "microservices"]
+    }
+  }
+]
