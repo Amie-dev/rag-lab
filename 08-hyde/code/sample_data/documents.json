@@ -1,0 +1,101 @@
+[
+  {
+    "id": "doc_rag_01",
+    "content": "Retrieval-Augmented Generation (RAG) Architecture: RAG mitigates large language model hallucinations by retrieving relevant knowledge-base context passages before generating responses. By grounding LLM generation in retrieved evidence rather than parametric memory alone, answers become verifiable, accurate, and up-to-date.",
+    "metadata": {
+      "title": "Retrieval-Augmented Generation Architecture Overview",
+      "category": "ai-architecture",
+      "tags": ["rag", "hallucination-mitigation", "llm", "grounding"]
+    }
+  },
+  {
+    "id": "doc_rag_02",
+    "content": "Hypothetical Document Embeddings (HyDE): HyDE is a query transformation mechanism that bridges the semantic representation gap between short user queries and long declarative knowledge documents. An LLM generates a hypothetical answer passage, which is then embedded to perform vector similarity search against real knowledge-base documents.",
+    "metadata": {
+      "title": "Hypothetical Document Embeddings Mechanism & Intuition",
+      "category": "query-transformation",
+      "tags": ["hyde", "query-transformation", "dense-retrieval", "embeddings"]
+    }
+  },
+  {
+    "id": "doc_rag_03",
+    "content": "Representation Gap in Vector Search: Direct vector search on short interrogative queries often fails because queries and knowledge base passages have distinct linguistic forms, lengths, and vocabulary distribution. HyDE converts short questions into rich, declarative synthetic passages prior to vector embedding calculation.",
+    "metadata": {
+      "title": "Addressing the Representation Gap in Semantic Search",
+      "category": "search-theory",
+      "tags": ["representation-gap", "dense-retrieval", "semantic-search"]
+    }
+  },
+  {
+    "id": "doc_auth_01",
+    "content": "Authentication System Overview: Our platform uses JSON Web Tokens (JWT) for stateless session handling. Users log in with credentials and receive an Access Token (15-min TTL) and a Refresh Token (7-day TTL). Authorization headers must accompany every API request.",
+    "metadata": {
+      "title": "Authentication System Architecture",
+      "category": "security",
+      "tags": ["auth", "jwt", "login"]
+    }
+  },
+  {
+    "id": "doc_auth_02",
+    "content": "Session Expiration & Token Blacklisting: When a user's session expires or they log out, the server places the JWT Refresh Token into a Redis blacklist. Any subsequent attempts to access protected routes result in HTTP 401 Unauthorized, prompting client redirection to /login.",
+    "metadata": {
+      "title": "Session Expiration & Token Invalidation Policy",
+      "category": "security",
+      "tags": ["session", "expiration", "blacklist", "redirect"]
+    }
+  },
+  {
+    "id": "doc_db_01",
+    "content": "PostgreSQL Query Performance Optimization: Slow executing SQL queries exceeding 100ms log execution plans via pg_stat_statements. Adding composite B-Tree indexes on heavily filtered columns eliminates sequential table scans and reduces CPU overhead.",
+    "metadata": {
+      "title": "Database Query Optimization & Indexing Guidelines",
+      "category": "database",
+      "tags": ["postgres", "indexing", "performance"]
+    }
+  },
+  {
+    "id": "doc_db_02",
+    "content": "Redis Caching Strategy & Eviction Policies: Frequently accessed user profile data is cached in Redis with a 5-minute Sliding Expiration window. Under high memory pressure, Redis applies volatile-lru eviction to clear stale items without disturbing active sessions.",
+    "metadata": {
+      "title": "Redis Distributed Caching Strategy",
+      "category": "database",
+      "tags": ["redis", "caching", "eviction", "performance"]
+    }
+  },
+  {
+    "id": "doc_infra_01",
+    "content": "API Gateway Rate Limiting & Token Bucket Algorithm: The API Gateway enforces rate limits of 100 requests per minute per IP using a Redis-backed Token Bucket algorithm. HTTP 429 Too Many Requests response headers specify retry time intervals.",
+    "metadata": {
+      "title": "API Gateway Rate Limiting Policy",
+      "category": "infrastructure",
+      "tags": ["rate-limiting", "token-bucket", "api-gateway"]
+    }
+  },
+  {
+    "id": "doc_infra_02",
+    "content": "Microservice Resilience & Circuit Breakers: External RPC calls to payment and notification services use Resilience4j Circuit Breakers. If network failure rates exceed 50%, the circuit opens immediately to prevent cascading system failures across dependent downstream services.",
+    "metadata": {
+      "title": "Microservice Resilience & Circuit Breaker Architecture",
+      "category": "infrastructure",
+      "tags": ["circuit-breaker", "resiliency", "microservices"]
+    }
+  },
+  {
+    "id": "doc_search_01",
+    "content": "Hybrid Search & Reciprocal Rank Fusion (RRF): Combining BM25 sparse lexical matching with dense vector similarity search provides optimal retrieval accuracy. RRF merges candidates by calculating reciprocal rank scores, neutralizing scale discrepancies across search algorithms.",
+    "metadata": {
+      "title": "Hybrid Search & Reciprocal Rank Fusion",
+      "category": "search-theory",
+      "tags": ["hybrid-search", "bm25", "rrf", "dense-retrieval"]
+    }
+  },
+  {
+    "id": "doc_reranking_01",
+    "content": "Cross-Encoder Reranking in RAG Pipelines: While bi-encoder vector search rapidly isolates top-K candidate chunks, cross-encoder reranking performs full self-attention across the query-document pair. This reorders top candidates with significantly higher precision before context injection into the generation LLM.",
+    "metadata": {
+      "title": "Cross-Encoder Reranking Architecture",
+      "category": "reranking",
+      "tags": ["reranking", "cross-encoder", "bi-encoder", "relevance"]
+    }
+  }
+]
